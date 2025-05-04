@@ -3,6 +3,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
 import { jwtDecode } from "jwt-decode";
+import API_URL from "../api";
 
 type JwtPayload = {
   userId: number;
@@ -18,7 +19,8 @@ const LoginPage = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        `${API_URL}
+/api/auth/login`,
         { email, password },
         { withCredentials: true }
       );

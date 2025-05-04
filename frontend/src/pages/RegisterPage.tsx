@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setCredentials } from "../features/auth/authSlice";
+import API_URL from "../api";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +13,8 @@ const RegisterPage = () => {
   const handleRegister = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/auth/register",
+        `${API_URL}
+/auth/register`,
         { username, email, password },
         { withCredentials: true }
       );

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import API_URL from "../api";
 
 interface Story {
   id: number;
@@ -30,7 +31,8 @@ const StoriesPage = () => {
   const fetchContributors = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5001/api/contributors/all`,
+        `${API_URL}
+/api/contributors/all`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -52,11 +54,15 @@ const StoriesPage = () => {
   // Fetch stories
   const fetchStories = async () => {
     try {
-      const res = await axios.get("http://localhost:5001/api/stories", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const res = await axios.get(
+        `${API_URL}
+/api/stories`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       setStories(res.data);
     } catch (err) {
       console.error("Failed to fetch stories", err);
@@ -78,7 +84,8 @@ const StoriesPage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/stories",
+        `${API_URL}
+/api/stories`,
         { title, content },
         {
           headers: {
@@ -101,11 +108,15 @@ const StoriesPage = () => {
     if (!window.confirm("Are you sure you want to delete this story?")) return;
 
     try {
-      await axios.delete(`http://localhost:5001/api/stories/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.delete(
+        `${API_URL}
+/api/stories/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       setStories(stories.filter((s) => s.id !== id));
     } catch (err) {
@@ -132,7 +143,8 @@ const StoriesPage = () => {
   const handleSaveEdit = async (id: number) => {
     try {
       const res = await axios.patch(
-        `http://localhost:5001/api/stories/${id}`,
+        `${API_URL}
+/api/stories/${id}`,
         { title: editTitle, content: editContent },
         {
           headers: {

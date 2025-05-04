@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import API_URL from "../api";
 
 interface Contributor {
   id: number;
   story_id: number;
   user_id: number;
 }
-
 const ContributorsPage = () => {
   const accessToken = useSelector((state: RootState) => state.auth.accessToken);
   const [storyId, setStoryId] = useState<number | "">("");
@@ -19,7 +19,8 @@ const ContributorsPage = () => {
     try {
       if (!storyId) return;
       const res = await axios.get(
-        `http://localhost:5001/api/contributors/${storyId}`,
+        `${API_URL}
+/api/contributors/${storyId}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -39,7 +40,8 @@ const ContributorsPage = () => {
   const handleAdd = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/contributors",
+        `${API_URL}
+/api/contributors`,
         { story_id: storyId, user_id: userId },
         {
           headers: {
@@ -58,11 +60,15 @@ const ContributorsPage = () => {
 
   const handleRemove = async (id: number) => {
     try {
-      await axios.delete(`http://localhost:5001/api/contributors/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await axios.delete(
+        `${API_URL}
+/api/contributors/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       setContributors(contributors.filter((c) => c.id !== id));
     } catch (err) {
